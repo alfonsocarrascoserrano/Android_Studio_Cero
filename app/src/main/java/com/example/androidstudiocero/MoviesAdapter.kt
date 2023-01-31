@@ -7,15 +7,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.androidstudiocero.databinding.ViewMovieBinding
 
-class MoviesAdapter(private val movies : List<Movie>) :
+class MoviesAdapter(private val movies: List<Movie>, private val MovieClickedListener : (Movie) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.view_movie, parent, false)
-        return ViewHolder(view)
+        val binding = ViewMovieBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = movies.size
@@ -23,16 +26,16 @@ class MoviesAdapter(private val movies : List<Movie>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = movies[position]
         holder.bind(movie)
+        holder.itemView.setOnClickListener { MovieClickedListener(movie)}
     }
 
-    class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(private val binding: ViewMovieBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        private val cover = view.findViewById<ImageView>(R.id.cover)
-        private val title = view.findViewById<TextView>(R.id.title)
 
         fun bind(movie: Movie) {
-            title.text = movie.title
-            Glide.with(cover.context).load(movie.cover).into(cover)
+            binding.title.text = movie.title
+            Glide.with(binding.cover.context).load(movie.cover).into(binding.cover)
         }
     }
 }
