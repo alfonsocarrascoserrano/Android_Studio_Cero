@@ -1,15 +1,21 @@
-package com.example.androidstudiocero
+package com.example.androidstudiocero.ui.common
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatImageView
-import android.util.Log
+import com.example.androidstudiocero.R
 
 class AspectRatioImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
 
-    var ratio: Float = 1f
+    var ratio :Float = 1f
+    init {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.AspectRatioImageView)
+        with(a) {
+            ratio = getFloat(R.styleable.AspectRatioImageView_ratio, 1f)
+            a.recycle()
+        }
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -27,6 +33,6 @@ class AspectRatioImageView @JvmOverloads constructor(
             width = (height / ratio).toInt()
         }
 
-        setMeasuredDimension(height,width)
+        setMeasuredDimension(width,height)
     }
 }

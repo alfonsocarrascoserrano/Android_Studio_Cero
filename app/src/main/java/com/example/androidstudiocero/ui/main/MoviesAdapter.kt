@@ -1,15 +1,14 @@
-package com.example.androidstudiocero
+package com.example.androidstudiocero.ui.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidstudiocero.databinding.ViewMovieBinding
+import com.example.androidstudiocero.model.Movie
 
-class MoviesAdapter(private val movies: List<Movie>, private val MovieClickedListener : (Movie) -> Unit) :
+class MoviesAdapter(var movies: List<Movie>,
+                    private val MovieClickedListener : (Movie) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +34,7 @@ class MoviesAdapter(private val movies: List<Movie>, private val MovieClickedLis
 
         fun bind(movie: Movie) {
             binding.title.text = movie.title
-            Glide.with(binding.cover.context).load(movie.cover).into(binding.cover)
+            Glide.with(binding.cover.context).load("https://image.tmdb.org/t/p/w185/${movie.poster_path}").into(binding.cover)
         }
     }
 }
